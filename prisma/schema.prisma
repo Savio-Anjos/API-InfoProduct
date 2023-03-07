@@ -16,3 +16,49 @@ model User {
   email     String
   createdAt DateTime @default(now())
 }
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  createdAt DateTime  @default(now())
+  products  Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  price       String
+  description String
+  createdAt   DateTime @default(now())
+
+  category    Category @relation(fields: [category_id], references: [id])
+  category_id String
+  items       Item[]
+
+  @@map("products")
+}
+
+model Order {
+  id        String   @id @default(cuid())
+  name      String?
+  createdAt DateTime @default(now())
+  items     Item[]
+
+  @@map("orders")
+}
+
+model Item {
+  id     String @id @default(cuid())
+  amount Int
+
+  createdAt DateTime @default(now())
+
+  order      Order   @relation(fields: [order_id], references: [id])
+  product    Product @relation(fields: [product_id], references: [id])
+  order_id   String
+  product_id String
+
+  @@map("items")
+}
