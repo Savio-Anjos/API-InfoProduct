@@ -109,6 +109,24 @@ app.get('/product', async () => {
     return { products }
 })
 
+// Deletar produto 
+app.delete('/product', async (request) => {
+  const deleteProductSchema = z.object({
+    id: z.string(),
+  })
+
+  const { id } = deleteProductSchema.parse(request.body)
+
+
+  const deleteProduct = await prisma.product.delete({
+    where: {
+      id: id,
+    }
+  })
+
+  return { deleteProduct }
+})
+
 app.listen({
   host: '0.0.0.0',
   port: process.env.PORT ? Number(process.env.PORT) : 3333,
