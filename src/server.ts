@@ -172,7 +172,7 @@ app.delete('/order', async (request) => {
 })
 
 // rotas de item
-app.post("/item", async (request) => {
+app.post("/item", async (request, reply) => {
   const createItemSchema = z.object({
     amount: z.number(),
     order_id: z.string(),
@@ -181,7 +181,7 @@ app.post("/item", async (request) => {
 
   const { amount, order_id, product_id } = createItemSchema.parse(request.body)
 
-  const order = await prisma.item.create({
+  const item = await prisma.item.create({
     data: {
       amount,
       order_id,
@@ -189,7 +189,7 @@ app.post("/item", async (request) => {
     }
   })
 
-  return { order }
+  return reply.status(201).send(item)
 })
 
 //listar items
@@ -197,6 +197,24 @@ app.get('/item', async () => {
   const items = await prisma.item.findMany()
 
   return { items }
+})
+
+//deletar item
+app.delete('/item', async (request, reply) => {
+  const deleteItemSchema = z.object({
+    id: z.string(),
+  })
+
+  const { id } = deleteItemSchema.parse(request.body)
+
+  const deleteItem = await prisma.item.delete({
+    where: {
+      id: id
+    }
+  })
+  
+  return reply.status(201).send(deleteItem)
+
 })
 
 app.listen({
