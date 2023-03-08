@@ -77,6 +77,31 @@ app.delete('/category', async (request) => {
   return { deleteCategory }
 })
 
+// Rotas de product
+
+//Criar produto
+app.post('/product', async (request, reply) => {
+  const createProductSchema = z.object({
+    name: z.string(),
+    price: z.string(),
+    description: z.string(),
+    category_id: z.string(),
+  })
+
+  const { name, price, description, category_id } = createProductSchema.parse(request.body)
+
+  const produto = await prisma.product.create({
+    data: {
+      name,
+      price,
+      description,
+      category_id,
+    }
+  })
+
+  return reply.status(201).send(produto)
+})
+
 app.listen({
   host: '0.0.0.0',
   port: process.env.PORT ? Number(process.env.PORT) : 3333,
