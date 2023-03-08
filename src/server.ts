@@ -102,6 +102,13 @@ app.post('/product', async (request, reply) => {
   return reply.status(201).send(produto)
 })
 
+// Listar products
+app.get('/product', async () => {
+    const products = await prisma.product.findMany()
+
+    return { products }
+})
+
 app.listen({
   host: '0.0.0.0',
   port: process.env.PORT ? Number(process.env.PORT) : 3333,
