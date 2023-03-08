@@ -6,6 +6,8 @@ const app = fastify()
 
 const prisma = new PrismaClient()
 
+// Rotas de usuário
+
 app.get('/users', async () => {
   const users = await prisma.user.findMany()
 
@@ -28,6 +30,24 @@ app.post('/users', async (request, reply) => {
   })
 
   return reply.status(201).send()
+}) 
+
+// Rotas de category
+
+app.post('/category', async (request, reply) => {
+  const createCategorySchema = z.object({
+    name: z.string(),
+  })
+
+  const { name } = createCategorySchema.parse(request.body)
+
+  await prisma.category.create({
+    data: {
+      name,
+    }
+  })
+
+  return reply.status(201).send({ name })
 })
 
 app.listen({
