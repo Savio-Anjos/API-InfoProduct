@@ -34,6 +34,7 @@ app.post('/users', async (request, reply) => {
 
 // Rotas de category
 
+// Criar categoria
 app.post('/category', async (request, reply) => {
   const createCategorySchema = z.object({
     name: z.string(),
@@ -48,6 +49,13 @@ app.post('/category', async (request, reply) => {
   })
 
   return reply.status(201).send({ name })
+})
+
+//Listar categorias
+app.get('/category', async () => {
+  const categories = await prisma.category.findMany();
+
+  return { categories }
 })
 
 app.listen({
