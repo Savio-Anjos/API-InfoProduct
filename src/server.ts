@@ -127,6 +127,26 @@ app.delete('/product', async (request) => {
   return { deleteProduct }
 })
 
+
+// Rotas de order
+
+// Criar order
+app.post('/order', async (request, reply) => {
+  const createOrderSchema = z.object({
+    name: z.string(),
+  })
+  
+  const { name } = createOrderSchema.parse(request.body)
+
+  const order = await prisma.order.create({
+    data: {
+      name: name,
+    }
+  })
+
+  return reply.status(201).send(order)
+})
+
 app.listen({
   host: '0.0.0.0',
   port: process.env.PORT ? Number(process.env.PORT) : 3333,
