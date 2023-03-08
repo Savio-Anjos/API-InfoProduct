@@ -192,6 +192,13 @@ app.post("/item", async (request) => {
   return { order }
 })
 
+//listar items
+app.get('/item', async () => {
+  const items = await prisma.item.findMany()
+
+  return { items }
+})
+
 app.listen({
   host: '0.0.0.0',
   port: process.env.PORT ? Number(process.env.PORT) : 3333,
