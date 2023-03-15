@@ -57,8 +57,7 @@ app.get('/category', async () => {
 
   return { categories }
 })
- 
-
+   
 
 //Deletar categoria
 app.delete('/category', async (request) => {
@@ -217,7 +216,7 @@ app.delete('/item', async (request, reply) => {
   return reply.status(201).send(deleteItem)
 
 })
- 
+
 //--------------------------
 app.listen({
   host: '0.0.0.0',
