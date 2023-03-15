@@ -2,9 +2,9 @@ import { PrismaClient } from '@prisma/client'
 import fastify from 'fastify'
 import { z } from 'zod'
 
-const app = fastify()
+const app = fastify();
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 // Rotas de usuário
 
