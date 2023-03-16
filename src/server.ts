@@ -95,6 +95,7 @@ app.post('/product', async (request, reply) => {
       name,
       price,
       description,
+      banner: "",
       category_id,
     }
   })
