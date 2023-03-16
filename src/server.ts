@@ -1,10 +1,14 @@
 import { PrismaClient } from '@prisma/client'
-import fastify from 'fastify'
+import fastify from 'fastify';
+import multer from 'multer';
 import { z } from 'zod'
+import uploadConfig from './config/multer';
 
 const app = fastify();
 
 const prisma = new PrismaClient();
+
+const upload = multer(uploadConfig.upload("./tmp"));
 
 // Rotas de usuário
 
@@ -89,18 +93,29 @@ app.post('/product', async (request, reply) => {
   })
 
   const { name, price, description, category_id } = createProductSchema.parse(request.body)
+/*
+  if(!request.file) {
+    throw new Error("Error upload file")
+  } else {
+*/
 
-  const produto = await prisma.product.create({
-    data: {
-      name,
-      price,
-      description,
-      category_id,
-    }
-  })
+  // const { originalname, filename } = file;
+    const produto = await prisma.product.create({
+      data: {
+        name,
+        price,
+        description,
+        banner: '',
+        category_id,
+      }
+    })
+  
+    return reply.status(201).send(produto)
 
-  return reply.status(201).send(produto)
-})
+  }
+
+  
+/*}*/)
 
 // Listar products
 app.get('/product', async () => {
