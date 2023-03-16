@@ -113,7 +113,7 @@ app.post('/product', async (request, reply) => {
     return reply.status(201).send(produto)
 
   }
-
+ 
   
 /*}*/)
 
