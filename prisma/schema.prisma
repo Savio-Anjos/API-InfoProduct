@@ -35,6 +35,7 @@ model Product {
   name        String
   price       String
   description String
+  banner      String
   createdAt   DateTime @default(now())
 
   category    Category @relation(fields: [category_id], references: [id])
